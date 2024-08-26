@@ -52,10 +52,23 @@ class SubscribersController < ApplicationController
   end
 
   def create
-    render json: {message: "Subscriber created successfully"}, formats: :json, status: :created
+    subscriber = Subscriber.new(email: params[:email], firstname: params[:firstnamename], lastname: params[:lastname], status: "active")
+    if subscriber.save
+      render json: {message: "Subscriber created successfully"}, formats: :json, status: :created
+    else
+      render json: {message: "Error: Failed to subscribe!"}, formats: :json, status: :unprocessable_entity
+    end
   end
 
   def update
-    render json: {message: "Subscriber updated successfully"}, formats: :json, status: :ok
+    subscriber = Subscriber.find(params[:id])
+
+    updated_status = (subscriber.status == "active") ? "inactive" : "active"
+
+    if subscriber.update({status: updated_status})
+      render json: {message: "Subscriber updated successfully"}, formats: :json, status: :ok
+    else
+      render json: {message: "Error: Failed to update subscriber!"}, formats: :json, status: :unprocessable_entity
+    end
   end
 end
