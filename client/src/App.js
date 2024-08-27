@@ -29,6 +29,7 @@ function App() {
   const [subscribers, setSubscribers] = useState([])
   const [pagination, setPagination] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [updatedList, setUpdatedList] = useState(false)
 
   const refreshSubscribers = useCallback(() => {
     const params = {
@@ -38,25 +39,25 @@ function App() {
 
     setIsLoading(true)
     getSubscribers(params)
-    .then((payload) => {
-      const subscribers = payload?.data?.subscribers || []
-      const pagination = payload?.data?.pagination || {}
+      .then((payload) => {
+        const subscribers = payload?.data?.subscribers || []
+        const pagination = payload?.data?.pagination || {}
 
-      setSubscribers(subscribers)
-      setPagination(pagination)
-    })
-    .catch((payload) => {
-      const error = payload?.response?.data?.message || 'Something went wrong'
-      console.error(error)
-    })
-    .finally(() => {
-      setIsLoading(false)
-    })
+        setSubscribers(subscribers)
+        setPagination(pagination)
+      })
+      .catch((payload) => {
+        const error = payload?.response?.data?.message || 'Something went wrong'
+        console.error(error)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [page, perPage]);
 
   useEffect(() => {
     refreshSubscribers()
-  }, [refreshSubscribers]);
+  }, [refreshSubscribers, updatedList]);
 
   const onPageSelected = (page) => {
     setPage(page)
@@ -71,6 +72,7 @@ function App() {
   }
 
   const onSuccessAddSubscriber = () => {
+    setUpdatedList(!updatedList)
     setShowAddModal(false)
   }
 
@@ -112,6 +114,9 @@ function App() {
             Add Subscriber
           </SecondaryButton>
         </div>
+        <p className="text-xs">
+          Showing {subscribers.length} results per page <span className="italic">(max 25)</span>
+        </p>
         <div className="mt-6">
           <SubscriberTable
             subscribers={subscribers}

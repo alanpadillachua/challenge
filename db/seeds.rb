@@ -40,5 +40,5 @@ subscriber_list = [
 ]
 
 subscriber_list.each do |subscriber|
-  Subscribers.create!(email: subscriber[:email], name: subscriber[:name], status: subscriber[:status])
+  Subscriber.create!(email: subscriber[:email], name: subscriber[:name], status: subscriber[:status])
 end
