@@ -14,7 +14,7 @@ class SubscribersController < ApplicationController
   end
 
   def create
-    subscriber = Subscriber.new(email: params[:email], firstname: params[:firstnamename], lastname: params[:lastname], status: "active")
+    subscriber = Subscriber.new(email: params[:email], name: params[:name], status: "active")
     if subscriber.save
       render json: {message: "Subscriber created successfully"}, formats: :json, status: :created
     else

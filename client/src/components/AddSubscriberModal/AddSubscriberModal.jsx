@@ -12,7 +12,7 @@ const AddSubscriberModal = (props) => {
   const [name, setName] = useState('')
 
   const handleChange = (e) => {
-    const { target: { name, value }} = e
+    const { target: { name, value } } = e
 
     if (name === 'email') {
       setEmail(value)
@@ -28,16 +28,16 @@ const AddSubscriberModal = (props) => {
 
     setIsSaving(true)
     createSubscriber(payload)
-    .then(() => {
-      onSuccess()
-    })
-    .catch((payload) => {
-      const error = payload?.response?.data?.message || 'Something went wrong'
-      console.error(error)
-    })
-    .finally(() => {
-      setIsSaving(false)
-    })
+      .then(() => {
+        onSuccess()
+      })
+      .catch((payload) => {
+        const error = payload?.response?.data?.message || 'Something went wrong'
+        console.error(error)
+      })
+      .finally(() => {
+        setIsSaving(false)
+      })
   }
 
   return (
@@ -96,7 +96,7 @@ const AddSubscriberModal = (props) => {
 }
 
 AddSubscriberModal.propTypes = {
-  isOpen: PropTypes.bool, 
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 }
